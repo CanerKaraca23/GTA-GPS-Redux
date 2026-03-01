@@ -1,3 +1,0 @@
-/home/runner/work/GTA-GPS-Redux/GTA-GPS-Redux/_codeql_build_dir/_deps/plugin_sdk-subbuild/CMakeFiles/plugin_sdk-populate.dir
-/home/runner/work/GTA-GPS-Redux/GTA-GPS-Redux/_codeql_build_dir/_deps/plugin_sdk-subbuild/CMakeFiles/edit_cache.dir
-/home/runner/work/GTA-GPS-Redux/GTA-GPS-Redux/_codeql_build_dir/_deps/plugin_sdk-subbuild/CMakeFiles/rebuild_cache.dir
