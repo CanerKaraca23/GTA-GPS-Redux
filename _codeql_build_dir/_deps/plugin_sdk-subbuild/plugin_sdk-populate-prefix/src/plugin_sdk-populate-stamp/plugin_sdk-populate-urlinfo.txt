@@ -1,0 +1,12 @@
+# This is a generated file and its contents are an internal implementation detail.
+# The download step will be re-executed if anything in this file changes.
+# No other meaning or use of this file is supported.
+
+method=url
+command=/usr/local/bin/cmake;-DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE;-P;/home/runner/work/GTA-GPS-Redux/GTA-GPS-Redux/_codeql_build_dir/_deps/plugin_sdk-subbuild/plugin_sdk-populate-prefix/src/plugin_sdk-populate-stamp/download-plugin_sdk-populate.cmake;COMMAND;/usr/local/bin/cmake;-DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE;-P;/home/runner/work/GTA-GPS-Redux/GTA-GPS-Redux/_codeql_build_dir/_deps/plugin_sdk-subbuild/plugin_sdk-populate-prefix/src/plugin_sdk-populate-stamp/verify-plugin_sdk-populate.cmake;COMMAND;/usr/local/bin/cmake;-DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE;-P;/home/runner/work/GTA-GPS-Redux/GTA-GPS-Redux/_codeql_build_dir/_deps/plugin_sdk-subbuild/plugin_sdk-populate-prefix/src/plugin_sdk-populate-stamp/extract-plugin_sdk-populate.cmake
+source_dir=/home/runner/work/GTA-GPS-Redux/GTA-GPS-Redux/_codeql_build_dir/_deps/plugin_sdk-src
+work_dir=/home/runner/work/GTA-GPS-Redux/GTA-GPS-Redux/_codeql_build_dir/_deps
+url(s)=https://github.com/juicermv/plugin-sdk/releases/latest/download/mingw.zip
+hash=
+      no_extract=
+
