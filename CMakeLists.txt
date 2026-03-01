@@ -28,6 +28,9 @@ project(GPS_Redux LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# Optional SA-MP (San Andreas Multiplayer) support
+option(SAMP "Build with SA-MP support" OFF)
+
 # 2. Fetch Dependencies using FetchContent
 include(FetchContent)
 
@@ -109,6 +112,11 @@ target_compile_definitions(gps_redux PRIVATE
         $<$<CONFIG:Release>:_NDEBUG>
 )
 
+# Add SAMP definition if enabled
+if(SAMP)
+    target_compile_definitions(gps_redux PRIVATE SAMP)
+endif()
+
 # 7. Compiler and Linker Specific Configuration
 if(MSVC)
     # This project must be compiled as 32-bit (x86).
@@ -136,6 +144,10 @@ if(MSVC)
             plugin.lib d3d9.lib d3dx9.lib simdstring.lib
     )
 
+    if(SAMP)
+        target_link_libraries(gps_redux PRIVATE psapi.lib kernel32.lib)
+    endif()
+
 elseif(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang") # MinGW/GCC/Clang
     # Enforce 32-bit build and enable C++23 with GNU extensions
     target_compile_options(gps_redux PRIVATE
@@ -157,6 +169,10 @@ elseif(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang") # MinGW/GCC/Clang
     target_link_libraries(gps_redux PRIVATE
             plugin d3d9 d3dx9 SIMDString
     )
+
+    if(SAMP)
+        target_link_libraries(gps_redux PRIVATE psapi kernel32)
+    endif()
 
 else()
     message(WARNING "Compiler not recognized. Build might fail. Supported compilers: MSVC, MinGW/GCC.")

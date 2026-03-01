@@ -44,6 +44,26 @@
 #include "util/Misc.h"
 #include "util/Render.h"
 
+#ifdef SAMP
+
+#include <Windows.h>
+#include <Psapi.h>
+
+#pragma comment(lib, "psapi.lib")
+#pragma comment(lib, "kernel32.lib")
+
+#define E_ADDR_GAMEPROCESS 0x53E981
+
+#pragma pack(push, 1)
+typedef struct stOpcodeRelCall
+{
+	BYTE bOpcode;
+	DWORD dwRelAddr;
+} OpcodeRelCall;
+#pragma pack(pop)
+
+#endif
+
 /*
 	#define MAX_NODE_POINTS 50000
 	#define GPS_LINE_WIDTH  4.0f
@@ -59,6 +79,11 @@
 class GPS
 {
   private:
+#ifdef SAMP
+	HANDLE hThread = NULL;
+	static DWORD WINAPI sampInit(LPVOID lpParam);
+#endif
+
 	void Run();
 	void GameEventHandle();
 	void DrawHudEventHandle();
@@ -106,6 +131,18 @@ class GPS
   public:
 	inline GPS()
 	{
+#ifdef SAMP
+		this->hThread = CreateThread(NULL, 0, GPS::sampInit, (LPVOID)this, 0, NULL);
+#else
 		this->Run();
+#endif
 	}
+
+#ifdef SAMP
+	inline ~GPS()
+	{
+		if (this->hThread != NULL)
+			TerminateThread(this->hThread, 0);
+	}
+#endif
 } GPSLineRedux;

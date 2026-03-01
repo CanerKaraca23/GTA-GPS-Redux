@@ -123,3 +123,126 @@ tasks:create("build_msvc", function()
     project:arch("x86")
     msvc:build(project)
 end)
+
+tasks:create("build_mingw_samp", function()
+    local PLUGIN_SDK_DIR_MINGW = network:zip("https://github.com/juicermv/plugin-sdk/releases/latest/download/mingw.zip")
+    local SIMDStringX86_MINGW = network:zip("https://github.com/juicermv/SIMDString/releases/download/release/mingw.zip")
+    project:include({
+        PLUGIN_SDK_DIR_MINGW .. "/src/",
+        PLUGIN_SDK_DIR_MINGW .. "/src/plugin_sa/",
+        PLUGIN_SDK_DIR_MINGW .. "/src/plugin_sa/game_sa/",
+        PLUGIN_SDK_DIR_MINGW .. "/src/plugin_sa/game_sa/rw/",
+        PLUGIN_SDK_DIR_MINGW .. "/src/shared/",
+        PLUGIN_SDK_DIR_MINGW .. "/src/shared/game/",
+        "external/mini/src",
+        SIMDStringX86_MINGW,
+        "src"
+    })
+
+    project:lib_path({
+        PLUGIN_SDK_DIR_MINGW .. "/lib/plugin_sa/",
+        "external/d3dx9",
+        SIMDStringX86_MINGW
+    })
+
+    project:arch("i686")
+
+    project:lib({
+        "d3d9",
+        "d3dx9",
+        "plugin",
+        "SIMDString",
+        "psapi",
+        "kernel32"
+    })
+
+    project:flag("Compiler", {
+        "-std=gnu++23",
+        "-Ofast",
+        "-fpermissive",
+        "-shared",
+        "-g",
+        "-DSAMP",
+    })
+
+    project:flag("Linker", {
+        "--dll",
+        "--subsystem,windows",
+        "--export-all-symbols"
+    })
+
+    mingw:build(project)
+end)
+
+tasks:create("build_msvc_samp", function()
+    local PLUGIN_SDK_DIR = network:zip("https://github.com/juicermv/plugin-sdk/releases/latest/download/msvc.zip")
+    local SIMDStringX86 = network:zip("https://github.com/juicermv/SIMDString/releases/download/release/msvc.zip").."/SIMDStringX86"
+
+    project:include({
+        PLUGIN_SDK_DIR .. "/src/",
+        PLUGIN_SDK_DIR .. "/src/plugin_sa/",
+        PLUGIN_SDK_DIR .. "/src/plugin_sa/game_sa/",
+        PLUGIN_SDK_DIR .. "/src/plugin_sa/game_sa/rw/",
+        PLUGIN_SDK_DIR .. "/src/shared/",
+        PLUGIN_SDK_DIR .. "/src/shared/game/",
+        "external/mini/src",
+        SIMDStringX86,
+        "src"
+    })
+
+    project:lib_path({
+        PLUGIN_SDK_DIR .. "/lib/plugin_sa/",
+        "external/d3dx9",
+        SIMDStringX86
+    })
+
+    project:lib({
+        "plugin.lib",
+        "d3d9.lib",
+        "d3dx9.lib",
+        "simdstring.lib",
+        "psapi.lib",
+        "kernel32.lib"
+    })
+
+    project:define({
+        "_NDEBUG",
+        "_CRT_SECURE_NO_WARNINGS",
+        "_CRT_NON_CONFORMING_SWPRINTFS",
+        "GTASA",
+        "GTAGAME_NAME=\"San Andreas\"",
+        "GTAGAME_ABBR=\"SA\"",
+        "GTAGAME_ABBRLOW=\"sa\"",
+        "GTAGAME_PROTAGONISTNAME=\"CJ\"",
+        "GTAGAME_CITYNAME=\"San Andreas\"",
+        "_LA_SUPPORT",
+        "_DX9_SDK_INSTALLED",
+        "PLUGIN_SGV_10US",
+        "_USE_MATH_DEFINES",
+        "RW",
+        "SAMP"
+    })
+
+    project:flag("Compiler", {
+        "/Ox",
+        "/Ob1",
+        "/std:c++latest",
+        "/GT",
+        "/fp:fast",
+        "/W3",
+        "/Gy",
+        "/MT",
+        "/Oi",
+        "/EHsc"
+    })
+
+    project:flag("Linker", {
+        "/SUBSYSTEM:WINDOWS",
+        "/OPT:ICF",
+        "/OPT:REF",
+        "/DLL"
+    })
+
+    project:arch("x86")
+    msvc:build(project)
+end)
