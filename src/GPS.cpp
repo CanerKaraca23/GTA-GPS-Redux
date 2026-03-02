@@ -1,6 +1,5 @@
 #include "GPS.h"
 
-#ifdef SAMP
 DWORD WINAPI GPS::sampInit(LPVOID lpParam)
 {
 	GPS *sender = (GPS *)lpParam;
@@ -44,7 +43,6 @@ DWORD WINAPI GPS::sampInit(LPVOID lpParam)
 
 	return 0;
 }
-#endif
 
 void GPS::Run()
 {
