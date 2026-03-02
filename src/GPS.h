@@ -132,9 +132,15 @@ class GPS
 			useSamp = cfg.ENABLE_SAMP == 1;
 
 		if (useSamp)
+		{
 			this->hThread = CreateThread(NULL, 0, GPS::sampInit, (LPVOID)this, 0, NULL);
+			if (this->hThread == NULL)
+				this->Run();
+		}
 		else
+		{
 			this->Run();
+		}
 	}
 
 	inline ~GPS()
