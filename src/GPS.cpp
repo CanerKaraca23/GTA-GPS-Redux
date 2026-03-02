@@ -1,5 +1,18 @@
 #include "GPS.h"
 
+#include <Windows.h>
+#include <Psapi.h>
+
+#define E_ADDR_GAMEPROCESS 0x53E981 // game process event hook address
+
+#pragma pack(push, 1)
+typedef struct stOpcodeRelCall
+{
+	BYTE bOpcode;
+	DWORD dwRelAddr;
+} OpcodeRelCall;
+#pragma pack(pop)
+
 DWORD WINAPI GPS::sampInit(LPVOID lpParam)
 {
 	GPS *sender = (GPS *)lpParam;

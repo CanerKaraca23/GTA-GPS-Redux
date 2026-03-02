@@ -44,22 +44,6 @@
 #include "util/Misc.h"
 #include "util/Render.h"
 
-#include <Windows.h>
-#include <Psapi.h>
-
-#pragma comment(lib, "psapi.lib")
-#pragma comment(lib, "kernel32.lib")
-
-#define E_ADDR_GAMEPROCESS 0x53E981
-
-#pragma pack(push, 1)
-typedef struct stOpcodeRelCall
-{
-	BYTE bOpcode;
-	DWORD dwRelAddr;
-} OpcodeRelCall;
-#pragma pack(pop)
-
 /*
 	#define MAX_NODE_POINTS 50000
 	#define GPS_LINE_WIDTH  4.0f
