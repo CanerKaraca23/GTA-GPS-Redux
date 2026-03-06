@@ -109,13 +109,7 @@ class GPS
   public:
 	inline GPS()
 	{
-		bool useSamp = false;
-		if (cfg.ENABLE_SAMP == 2)
-			useSamp = GetModuleHandle("samp.dll") != NULL;
-		else
-			useSamp = cfg.ENABLE_SAMP == 1;
-
-		if (useSamp)
+		if (GetModuleHandle("samp.dll") != NULL)
 		{
 			this->hThread = CreateThread(NULL, 0, GPS::sampInit, (LPVOID)this, 0, NULL);
 			if (this->hThread == NULL)

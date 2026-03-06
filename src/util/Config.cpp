@@ -75,10 +75,6 @@ namespace util
 		/* Log */
 		LOGFILE_ENABLED = static_cast<bool>(std::atoi(ini["Misc"]["enableLog"].c_str()));
 
-		/* SAMP */
-		std::string sampVal = ini["Misc"]["enableSAMP"];
-		ENABLE_SAMP = sampVal.empty() ? 2 : static_cast<short>(std::atoi(sampVal.c_str()));
-
 		file.write(ini);
 	}
 } // namespace util
