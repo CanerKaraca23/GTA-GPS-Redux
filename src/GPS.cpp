@@ -1,54 +1,14 @@
 #include "GPS.h"
 
 #include <Windows.h>
-#include <Psapi.h>
-
-#define E_ADDR_GAMEPROCESS 0x53E981 // game process event hook address
-
-#pragma pack(push, 1)
-typedef struct stOpcodeRelCall
-{
-	BYTE bOpcode;
-	DWORD dwRelAddr;
-} OpcodeRelCall;
-#pragma pack(pop)
 
 DWORD WINAPI GPS::sampInit(LPVOID lpParam)
 {
 	GPS *sender = (GPS *)lpParam;
 
-	stOpcodeRelCall *fnGameProc = (stOpcodeRelCall *)E_ADDR_GAMEPROCESS;
-
-	// Check if E_ADDR_GAMEPROCESS opcode is a relative call (0xE8)
-	while (fnGameProc->bOpcode != 0xE8)
-		Sleep(100);
-
-	while (true)
-	{
-		Sleep(100);
-
-		MODULEINFO miSampDll;
-		// Get samp.dll module information to get base address and end address
-		if (!GetModuleInformation(GetCurrentProcess(), GetModuleHandle("samp.dll"), &miSampDll, sizeof(MODULEINFO)))
-		{
-			continue;
-		}
-
-		DWORD dwSampDllBaseAddr = (DWORD)miSampDll.lpBaseOfDll;
-		DWORD dwSampDllEndAddr = dwSampDllBaseAddr + miSampDll.SizeOfImage;
-
-		// Calculate destination address by offset and relative call opcode size
-		DWORD dwCallAddr = fnGameProc->dwRelAddr + E_ADDR_GAMEPROCESS + 5;
-
-		// Check if dwCallAddr is a samp.dll's hook address,
-		// to make sure this plugin hook (Events::gameProcessEvent) not replaced by samp.dll
-		if (dwCallAddr >= dwSampDllBaseAddr && dwCallAddr <= dwSampDllEndAddr)
-			break;
-	}
-
-	// Wait for the game to fully load to avoid conflicts and crashes
+	// Wait for the game and SAMP to fully initialize before registering hooks
 	while (!FindPlayerPed(0))
-		Sleep(5000);
+		Sleep(100);
 
 	sender->Run();
 

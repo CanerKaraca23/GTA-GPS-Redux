@@ -34,9 +34,7 @@ tasks:create("build_mingw", function()
         "d3d9",
         "d3dx9",
         "plugin",
-        "SIMDString",
-        "psapi",
-        "kernel32"
+        "SIMDString"
     })
 
     project:flag("Compiler", {
@@ -82,9 +80,7 @@ tasks:create("build_msvc", function()
         "plugin.lib",
         "d3d9.lib",
         "d3dx9.lib",
-        "simdstring.lib",
-        "psapi.lib",
-        "kernel32.lib"
+        "simdstring.lib"
     })
 
     project:define({
