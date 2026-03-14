@@ -2,6 +2,8 @@
 
 #include <windows.h>
 
+static constexpr DWORD GAME_INIT_POLL_INTERVAL_MS = 100;
+
 DWORD WINAPI GPS::sampInit(LPVOID lpParam)
 {
 	GPS *sender = static_cast<GPS *>(lpParam);
@@ -11,7 +13,7 @@ DWORD WINAPI GPS::sampInit(LPVOID lpParam)
 	{
 		if (sender->stopThread)
 			return 0;
-		Sleep(100);
+		Sleep(GAME_INIT_POLL_INTERVAL_MS);
 	}
 
 	if (!sender->stopThread)

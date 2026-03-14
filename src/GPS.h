@@ -130,6 +130,7 @@ class GPS
 			this->stopThread = true;
 			WaitForSingleObject(this->hThread, INFINITE);
 			CloseHandle(this->hThread);
+			this->hThread = NULL;
 		}
 	}
 } GPSLineRedux;
