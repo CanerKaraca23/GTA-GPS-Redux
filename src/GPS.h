@@ -60,6 +60,7 @@
 class GPS
 {
   private:
+	static constexpr DWORD THREAD_SHUTDOWN_TIMEOUT_MS = 2000;
 	HANDLE hThread = NULL;
 	std::atomic<bool> stopThread{false};
 	static DWORD WINAPI sampInit(LPVOID lpParam);
@@ -128,7 +129,7 @@ class GPS
 		if (this->hThread != NULL)
 		{
 			this->stopThread = true;
-			WaitForSingleObject(this->hThread, INFINITE);
+			WaitForSingleObject(this->hThread, THREAD_SHUTDOWN_TIMEOUT_MS);
 			CloseHandle(this->hThread);
 			this->hThread = NULL;
 		}
