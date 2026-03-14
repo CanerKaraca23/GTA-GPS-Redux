@@ -60,7 +60,6 @@
 class GPS
 {
   private:
-	static constexpr DWORD THREAD_SHUTDOWN_TIMEOUT_MS = 2000;
 	HANDLE hThread = NULL;
 	std::atomic<bool> stopThread{false};
 	static DWORD WINAPI sampInit(LPVOID lpParam);
@@ -129,14 +128,9 @@ class GPS
 		if (this->hThread != NULL)
 		{
 			this->stopThread.store(true);
-			// stopThread signals exit; thread checks flag every GAME_INIT_POLL_INTERVAL_MS
-			// so THREAD_SHUTDOWN_TIMEOUT_MS is well above that — WAIT_TIMEOUT should never occur
-			const DWORD waitResult = WaitForSingleObject(this->hThread, THREAD_SHUTDOWN_TIMEOUT_MS);
-			if (waitResult == WAIT_OBJECT_0)
-			{
-				CloseHandle(this->hThread);
-				this->hThread = NULL;
-			}
+			WaitForSingleObject(this->hThread, INFINITE);
+			CloseHandle(this->hThread);
+			this->hThread = NULL;
 		}
 	}
 } GPSLineRedux;
