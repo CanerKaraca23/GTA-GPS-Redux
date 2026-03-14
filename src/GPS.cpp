@@ -8,13 +8,14 @@ DWORD WINAPI GPS::sampInit(LPVOID lpParam)
 
 	// Wait for the game to fully initialize (player ped created) before registering hooks
 	while (!FindPlayerPed(0))
+	{
+		if (sender->stopThread)
+			return 0;
 		Sleep(100);
+	}
 
-	sender->Run();
-
-	HANDLE h = sender->hThread;
-	sender->hThread = NULL;
-	CloseHandle(h);
+	if (!sender->stopThread)
+		sender->Run();
 
 	return 0;
 }

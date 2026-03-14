@@ -9,6 +9,7 @@
 
 #include <algorithm>
 #include <array>
+#include <atomic>
 #include <chrono>
 #include <cmath>
 #include <ctime>
@@ -60,6 +61,7 @@ class GPS
 {
   private:
 	HANDLE hThread = NULL;
+	std::atomic<bool> stopThread{false};
 	static DWORD WINAPI sampInit(LPVOID lpParam);
 
 	void Run();
@@ -125,7 +127,8 @@ class GPS
 	{
 		if (this->hThread != NULL)
 		{
-			TerminateThread(this->hThread, 0);
+			this->stopThread = true;
+			WaitForSingleObject(this->hThread, 5000);
 			CloseHandle(this->hThread);
 		}
 	}
