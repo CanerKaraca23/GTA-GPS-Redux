@@ -111,7 +111,7 @@ class GPS
 	{
 		if (GetModuleHandle("samp.dll") != NULL)
 		{
-			this->hThread = CreateThread(NULL, 0, GPS::sampInit, (LPVOID)this, 0, NULL);
+			this->hThread = CreateThread(NULL, 0, GPS::sampInit, static_cast<LPVOID>(this), 0, NULL);
 			if (this->hThread == NULL)
 				this->Run();
 		}
@@ -124,6 +124,9 @@ class GPS
 	inline ~GPS()
 	{
 		if (this->hThread != NULL)
+		{
 			TerminateThread(this->hThread, 0);
+			CloseHandle(this->hThread);
+		}
 	}
 } GPSLineRedux;

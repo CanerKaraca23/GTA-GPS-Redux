@@ -1,28 +1,20 @@
 #include "GPS.h"
 
-#include <Windows.h>
+#include <windows.h>
 
 DWORD WINAPI GPS::sampInit(LPVOID lpParam)
 {
 	GPS *sender = static_cast<GPS *>(lpParam);
 
 	// Wait for the game to fully initialize (player ped created) before registering hooks
-	const int timeout_ms = 60000;
-	int elapsed_ms = 0;
-	const int sleep_interval_ms = 100;
+	while (!FindPlayerPed(0))
+		Sleep(100);
 
-	while (elapsed_ms < timeout_ms)
-	{
-		if (FindPlayerPed(0))
-		{
-			sender->Run();
-			break;
-		}
-		Sleep(sleep_interval_ms);
-		elapsed_ms += sleep_interval_ms;
-	}
+	sender->Run();
 
+	HANDLE h = sender->hThread;
 	sender->hThread = NULL;
+	CloseHandle(h);
 
 	return 0;
 }
