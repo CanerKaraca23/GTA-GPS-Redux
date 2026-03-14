@@ -131,8 +131,8 @@ class GPS
 		if (this->hThread != NULL)
 		{
 			this->stopThread.store(true);
-			WaitForSingleObject(this->hThread, INFINITE);
-			CloseHandle(this->hThread);
+			if (WaitForSingleObject(this->hThread, INFINITE) == WAIT_OBJECT_0)
+				CloseHandle(this->hThread);
 			this->hThread = NULL;
 		}
 	}
