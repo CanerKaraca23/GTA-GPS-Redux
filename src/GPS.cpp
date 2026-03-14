@@ -4,7 +4,7 @@
 
 DWORD WINAPI GPS::sampInit(LPVOID lpParam)
 {
-	GPS *sender = (GPS *)lpParam;
+	GPS *sender = static_cast<GPS *>(lpParam);
 
 	// Wait for the game and SAMP to fully initialize before registering hooks
 	while (!FindPlayerPed(0))
