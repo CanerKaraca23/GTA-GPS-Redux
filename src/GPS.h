@@ -128,10 +128,15 @@ class GPS
 	{
 		if (this->hThread != NULL)
 		{
-			this->stopThread = true;
-			WaitForSingleObject(this->hThread, THREAD_SHUTDOWN_TIMEOUT_MS);
-			CloseHandle(this->hThread);
-			this->hThread = NULL;
+			this->stopThread.store(true);
+			// stopThread signals exit; thread checks flag every GAME_INIT_POLL_INTERVAL_MS
+			// so THREAD_SHUTDOWN_TIMEOUT_MS is well above that — WAIT_TIMEOUT should never occur
+			const DWORD waitResult = WaitForSingleObject(this->hThread, THREAD_SHUTDOWN_TIMEOUT_MS);
+			if (waitResult == WAIT_OBJECT_0)
+			{
+				CloseHandle(this->hThread);
+				this->hThread = NULL;
+			}
 		}
 	}
 } GPSLineRedux;
