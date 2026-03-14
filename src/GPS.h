@@ -109,6 +109,9 @@ class GPS
 	std::mutex pathMutex;
 
   public:
+	GPS(const GPS &) = delete;
+	GPS &operator=(const GPS &) = delete;
+
 	inline GPS()
 	{
 		if (GetModuleHandle("samp.dll") != NULL)
