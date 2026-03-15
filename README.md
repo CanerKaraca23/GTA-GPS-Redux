@@ -4,7 +4,7 @@
     <img height="200" src='https://github.com/juicermv/GTA-GPS-Redux/assets/34755463/dc40c010-6e32-4ba0-b669-b128618bbd5e'>
 </div>
 
-# GTA SA GPS Redux
+# SAMP GPS Redux (Fork of GTA SA GPS Redux by juicermv for SAMP compatibility)
 
 This mod includes automatic navigation for mission markers as well as the player target.
 If you'd like to contribute, go ahead.
@@ -22,7 +22,6 @@ make sure the source you downloaded this mod from can be trusted and is approved
 ## You can find the latest release under the releases on the GitHub page. For the latest WIP build (unstable) check out the Actions tab on the GitHub.
 
 ## Installation
-
 
 1. Via modloader
     - Create a new folder inside your modloader folder. You can name it whatever you want.
